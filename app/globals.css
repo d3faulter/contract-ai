@@ -3,17 +3,40 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 30, 41, 59;
+  --glass-bg: rgba(30, 41, 59, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --radius: 0.5rem; /* Added radius variable for consistency */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float { /* Corrected keyframe name */
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius); /* Apply radius */
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
 body {
@@ -24,4 +47,123 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* Added some basic dark mode styles for better contrast */
+.dark .glass {
+  background: rgba(51, 65, 85, 0.3); /* Darker glass background */
+  border-color: rgba(255, 255, 255, 0.05); /* Lighter border */
+}
+
+/* Ensure shadcn components respect dark mode and glass */
+/* Targeting specific shadcn components that might override styles */
+.dark .bg-white,
+.dark .bg-card,
+.dark .bg-popover {
+  background-color: transparent !important; /* Use transparent background for glass effect */
+}
+
+.dark .border-gray-200,
+.dark .border-border {
+  border-color: var(--glass-border) !important;
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-foreground,
+.dark .text-card-foreground,
+.dark .text-popover-foreground {
+   color: rgb(var(--foreground-rgb)) !important;
+}
+
+.dark .text-gray-500,
+.dark .text-muted-foreground {
+  color: rgba(var(--foreground-rgb), 0.7) !important;
+}
+
+.dark .text-gray-600 {
+  color: rgba(var(--foreground-rgb), 0.8) !important;
+}
+
+.dark .bg-gray-200,
+.dark .bg-secondary {
+  background-color: rgba(var(--foreground-rgb), 0.1) !important;
+}
+
+.dark .hover\\:bg-gray-100:hover,
+.dark .hover\\:bg-secondary\\/80:hover {
+  background-color: rgba(var(--foreground-rgb), 0.15) !important;
+}
+
+.dark .data-\\[state\\=active\\]\\:bg-indigo-600[data-state="active"],
+.dark .data-\\[state\\=active\\]\\:bg-primary[data-state="active"] {
+  background-color: #4f46e5 !important; /* Ensure active tab color is visible */
+}
+
+.dark .data-\\[state\\=active\\]\\:text-white[data-state="active"],
+.dark .data-\\[state\\=active\\]\\:text-primary-foreground[data-state="active"] {
+  color: white !important;
+}
+
+.dark .bg-indigo-600,
+.dark .bg-primary {
+  background-color: #4f46e5 !important;
+}
+
+.dark .hover\\:bg-indigo-700:hover,
+.dark .hover\\:bg-primary\\/90:hover {
+  background-color: #4338ca !important;
+}
+
+.dark .bg-indigo-100,
+.dark .bg-accent {
+  background-color: rgba(79, 70, 229, 0.2) !important;
+}
+
+.dark .text-indigo-600,
+.dark .text-primary {
+  color: #6366f1 !important;
+}
+
+.dark .text-indigo-400 {
+  color: #818cf8 !important;
+}
+
+.dark .border-indigo-500,
+.dark .border-primary {
+  border-color: #6366f1 !important;
+}
+
+.dark .bg-indigo-50 {
+  background-color: rgba(79, 70, 229, 0.1) !important;
+}
+
+.dark .bg-red-500 { background-color: #ef4444 !important; }
+.dark .bg-yellow-500 { background-color: #eab308 !important; }
+.dark .bg-blue-500 { background-color: #3b82f6 !important; }
+
+.dark .bg-yellow-300 { background-color: #fde047 !important; }
+.dark .dark\\:bg-yellow-600 { background-color: #ca8a04 !important; }
+.dark .dark\\:text-white { color: white !important; }
+
+/* Ensure backdrop-filter is applied correctly */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius);
+  /* Ensure positioning context if needed, though usually not for this */
+  position: relative; /* Added relative positioning */
+  z-index: 1; /* Ensure it's above the background */
+}
+
+/* Ensure animations are correctly applied */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
